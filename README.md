@@ -52,7 +52,7 @@ job. Ideally it would be run every minute.
 
     optional arguments:
       -h, --help            show this help message and exit
-      --security-group SECURITY_GROUP [SECURITY_GROUP ...]
+      --security-group SECURITY_GROUP[:vpc|ec2] [SECURITY_GROUP ...]
       --access-key ACCESS_KEY
       --secret-key SECRET_KEY
       --output OUTPUT       Defaults to haproxy.cfg if not specified.
@@ -68,7 +68,7 @@ job. Ideally it would be run every minute.
 
 Example:
 
-    /usr/bin/python update-haproxy.py --access-key='SOMETHING' --secret-key='SoMeThInGeLsE' --security-group='webheads' 'tomcat-servers'
+    /usr/bin/python update-haproxy.py --access-key='SOMETHING' --secret-key='SoMeThInGeLsE' --security-group='webheads' 'tomcat-servers' 'tornado-servers:vpc' 'nginx-servers:ec2'
 
 ## Changelog ##
 * v0.1 - Initial release.

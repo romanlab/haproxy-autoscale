@@ -27,7 +27,7 @@ def steal_elastic_ip(access_key=None, secret_key=None, ip=None):
     conn.associate_address(instance_id=instance_id, public_ip=ip)
 
 
-def get_running_instances(access_key=None, secret_key=None, security_group=None):
+def get_running_instances(access_key=None, secret_key=None, security_group_name=None, security_group_type=None):
     '''
     Get all running instances. Only within a security group if specified.
     '''
@@ -45,7 +45,11 @@ def get_running_instances(access_key=None, secret_key=None, security_group=None)
 
         running_instances = []
         for s in conn.get_all_security_groups():
-            if s.name == security_group:
+            # A bit complex if to handle the different security group types - with backwards compatibility
+            type_match = (security_group_type.lower() == 'vpc' and s.vpc_id) or \
+                         (security_group_type.lower() == 'ec2' and not s.vpc_id) or not security_group_type
+
+            if s.name == security_group_name and type_match:
                 running_instances.extend([i for i in s.instances() if i.state == 'running'])
 
         if running_instances:
